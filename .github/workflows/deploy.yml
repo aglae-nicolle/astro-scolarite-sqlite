@@ -53,7 +53,7 @@ jobs:
             systemctl status scolarite --no-pager
 
 
-            echo "Health check..."
+            curl -vk --fail https://localhost:3000/ || echo "Health check failed"
             curl --fail http://localhost:3000/ || echo "Health check failed"
 
             echo "======================================"
