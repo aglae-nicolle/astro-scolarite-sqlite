@@ -47,10 +47,10 @@ jobs:
 
             echo "Restarting application..."
 
-            systemctl restart scolarite
+            /usr/bin/systemctl restart scolarite
 
             echo "Checking service status..."
-            systemctl status scolarite --no-pager
+            /usr/bin/systemctl status scolarite --no-pager
 
             curl -vk --fail https://localhost:3000/ || echo "Health check failed"
             curl --fail http://localhost:3000/ || echo "Health check failed"
