@@ -1,0 +1,49 @@
+name: Deploy AstroJS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on Ubuntu server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+
+            echo "======================================"
+            echo "Start deployment"
+            echo "======================================"
+
+            cd /var/www/scolarite/astro-scolarite-sqlite
+
+            echo "Updating code..."
+            git pull origin main
+
+            echo "Installing dependencies..."
+            bun ci
+
+            echo "Building Astro..."
+            bun run build
+
+            echo "Restarting application..."
+            sudo systemctl restart scolarite
+
+            echo "Checking service status..."
+            sudo systemctl status scolarite --no-pager
+
+            echo "Health check..."
+            curl --fail http://localhost:3000/ || echo "Health check failed"
+
+            echo "======================================"
+            echo "Deployment finished"
+            echo "======================================"
