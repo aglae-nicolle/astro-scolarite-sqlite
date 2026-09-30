@@ -26,13 +26,6 @@ jobs:
             echo "======================================"
             echo "Start deployment"
             echo "======================================"
-            # Vérification que bun est trouvé
-            if [ ! -f "$BUN_CMD" ]; then
-                echo "ERREUR : Bun introuvable à l'adresse $BUN_CMD"
-                exit 1
-            fi
-            echo "Bun found at: $BUN_CMD"
-            $BUN_CMD --version
 
             cd /var/www/scolarite/astro-scolarite-sqlite
 
@@ -47,10 +40,10 @@ jobs:
 
             echo "Restarting application..."
 
-            sudo -n /usr/bin/systemctl restart scolarite
+            systemctl restart scolarite
 
             echo "Checking service status..."
-            sudo -n /usr/bin/systemctl status scolarite --no-pager
+            systemctl status scolarite --no-pager
 
             curl -vk --fail https://localhost:3000/ || echo "Health check failed"
             curl --fail http://localhost:3000/ || echo "Health check failed"
