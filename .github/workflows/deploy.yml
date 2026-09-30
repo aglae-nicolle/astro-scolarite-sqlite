@@ -40,7 +40,7 @@ jobs:
 
             echo "Restarting application..."
 
-            systemctl restart scolarite
+            sudo systemctl restart scolarite
 
             echo "Checking service status..."
             systemctl status scolarite --no-pager
