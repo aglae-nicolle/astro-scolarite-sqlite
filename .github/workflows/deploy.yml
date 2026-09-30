@@ -20,6 +20,8 @@ jobs:
           script: |
             set -e
 
+            export PATH="$HOME/.bun/bin:$PATH"
+
             echo "======================================"
             echo "Start deployment"
             echo "======================================"
