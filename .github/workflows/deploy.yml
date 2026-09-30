@@ -46,10 +46,12 @@ jobs:
             $BUN_CMD run build
 
             echo "Restarting application..."
+
             systemctl restart scolarite
 
             echo "Checking service status..."
             systemctl status scolarite --no-pager
+
 
             echo "Health check..."
             curl --fail http://localhost:3000/ || echo "Health check failed"
